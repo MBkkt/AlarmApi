@@ -1,6 +1,7 @@
-from api_code import model
 # from flask import abort
 from datetime import time
+
+from api_code import model
 
 model.db.create_all()
 

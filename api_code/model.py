@@ -1,6 +1,5 @@
 from api_code import db
 
-
 links = db.Table('links',
                  db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
                  db.Column('room_id', db.Integer, db.ForeignKey('room.id')), )
