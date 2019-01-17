@@ -1,4 +1,4 @@
-import api_code
+from api_code import app
 
 if __name__ == '__main__':
-    api_code.app.run(host='127.0.0.1')
+    app.run(host='127.0.0.1')
