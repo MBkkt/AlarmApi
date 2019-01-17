@@ -1,0 +1,7 @@
+{
+  "address": "8.8.8.8",
+  "requestType": 7,
+  "userId": 1,
+  "userPassword": "abc",
+  "roomName": ["newroom1", "room2"]
+}

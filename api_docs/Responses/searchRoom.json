@@ -1,0 +1,10 @@
+{
+  "responseType": 8,
+  "rooms": [
+    {
+      "id": 0,
+      "name": "room1",
+      "adminId": 3298409
+    }
+  ]
+}

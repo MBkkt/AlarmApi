@@ -1,0 +1,10 @@
+{
+  "address": "8.8.8.8",
+  "requestType": 2,
+  "userId": 1,
+  "userPassword": "abc",
+  "room": {
+    "name": "room1",
+    "password": "34209184032"
+  }
+}
