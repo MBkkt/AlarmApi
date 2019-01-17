@@ -5,12 +5,12 @@ from api_code import response_func as func
 
 
 @app.errorhandler(400)
-def not_found(error):
+def not_found():
     return make_response(jsonify({'error': 'Bad request, sosi hui, hz pochemu'}), 400)
 
 
 @app.errorhandler(404)
-def not_found(error):
+def not_found():
     return make_response(jsonify({'error': 'Not found this url'}), 404)
 
 
