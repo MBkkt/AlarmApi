@@ -36,8 +36,7 @@ def login(data: dict) -> dict:
         'logged': False,
         'userId': -1,
     }
-    user = User.query.filter_by(id=data['userId']).first() or \
-           User.query.filter_by(name=data['userName']).first()
+    user = User.query.filter_by(id=data['userId']).first() or User.query.filter_by(name=data['userName']).first()
     if checker(user, data):
         ans['userId'] = user.id
         ans['logged'] = True
@@ -82,13 +81,12 @@ def change_room(data: dict) -> dict:
         )
         temp = []
         for alarm in data['room']['alarms']:
-            alarm = Alarm.query.filter_by(id=alarm['id']).first() or \
-                    Alarm(
-                        name=alarm['name'],
-                        counter=0,
-                        time=time(hour=alarm['time'][0], minute=alarm['time'][1], ),
-                        days=''.join(map(str, alarm['days'])),
-                    )
+            alarm = Alarm.query.filter_by(id=alarm['id']).first() or Alarm(
+                name=alarm['name'],
+                counter=0,
+                time=time(hour=alarm['time'][0], minute=alarm['time'][1], ),
+                days=''.join(map(str, alarm['days'])),
+            )
             alarm.counter = room.linking.count()
             temp.append(alarm)
         room.alarms = temp
@@ -99,7 +97,7 @@ def change_room(data: dict) -> dict:
 
 def get_rooms(data: dict) -> dict:
     ans = {
-        'responseTyp': 4,
+        'responseType': 4,
         'userId': -1,
         'rooms': [],
     }
