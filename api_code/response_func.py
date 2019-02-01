@@ -5,11 +5,11 @@ from api_code.model import db, User, Room, Msg, Alarm
 db.create_all()
 
 
-def checker(user_db, user_request, true_agrs=(), false_args=()):
+def _checker(user_db, user_request, true_agrs=(), false_args=()):
     return all((
         user_db,
-        user_request['userId'] == user_db.id or user_request['userName'] == user_db.name,
-        user_request['userPassword'] == user_db.password,
+        user_db.id == user_request.get('userId') or user_db.name == user_request.get('userName'),
+        user_db.password == user_request.get('userPassword'),
         all(true_agrs),
         not any(false_args),
     ))
@@ -21,7 +21,8 @@ def register(data: dict) -> dict:
         'registred': False,
         'userId': -1,
     }
-    if not User.query.filter_by(name=data['userName']).count():
+    user = User.query.filter_by(name=data['userName']).first()
+    if not user:
         user = User(name=data['userName'], password=data['userPassword'])
         db.session.add(user)
         db.session.commit()
@@ -37,7 +38,7 @@ def login(data: dict) -> dict:
         'userId': -1,
     }
     user = User.query.filter_by(id=data['userId']).first() or User.query.filter_by(name=data['userName']).first()
-    if checker(user, data):
+    if _checker(user, data):
         ans['userId'] = user.id
         ans['logged'] = True
     return ans
@@ -51,7 +52,7 @@ def create_room(data: dict) -> dict:
     }
     admin = User.query.filter_by(id=data['userId']).first()
     room = Room.query.filter_by(name=data['room']['name']).first()
-    if checker(admin, data, false_args=(room,)):
+    if _checker(admin, data, false_args=(room,)):
         room = Room(name=data['room']['name'], password=data['room']['password'], admin_id=admin.id)
         room.linking.append(admin)
         db.session.add(room)
@@ -68,7 +69,7 @@ def change_room(data: dict) -> dict:
     }
     room = Room.query.filter_by(id=data['room']['id']).first()
     admin = User.query.filter_by(id=room.admin_id).first()
-    if checker(admin, data):
+    if _checker(admin, data):
         room.name = data['room']['name']
         room.password = data['room']['password']
         room.admin_id = data['room']['adminId']
@@ -102,7 +103,7 @@ def get_rooms(data: dict) -> dict:
         'rooms': [],
     }
     user = User.query.filter_by(id=data['userId']).first()
-    if checker(user, data):
+    if _checker(user, data):
         ans['userId'] = user.id
         ans['rooms'] = [
             {'id': room.id, 'name': room.name, 'adminId': room.admin_id}
@@ -120,7 +121,7 @@ def send_request_to_room(data: dict) -> dict:
     room = Room.query.filter_by(id=data['roomId']).first()
     user = User.query.filter_by(id=data['userId']).first()
     msg = Msg.query.filter_by(user_id=data['userId'], room_id=data['roomId']).first()
-    if checker(user, data, (room,), (msg,)):
+    if _checker(user, data, (room,), (msg,)):
         msg = Msg(msg=data['msg'])
         db.session.add(msg)
         user.msgs.append(msg)
@@ -138,7 +139,7 @@ def turn_off_alarm(data: dict) -> dict:
     }
     user = User.query.filter_by(id=data['userId']).first()
     alarm = Alarm.query.filter_by(id=data['alarmId']).first()
-    if checker(user, data, (alarm,)):
+    if _checker(user, data, (alarm,)):
         alarm.counter -= 1
         ans['turnedOff'] = True
     return ans
@@ -150,7 +151,7 @@ def search_room(data: dict) -> dict:
         'rooms': [],
     }
     user = User.query.filter_by(id=data['userId']).first()
-    if checker(user, data):
+    if _checker(user, data):
         ans['rooms'] = [
             {'id': room.id, 'name': room.name, 'adminId': room.admin_id, }
             for room in
@@ -167,7 +168,7 @@ def check_alarm(data: dict) -> dict:
     }
     user = User.query.filter_by(id=data['userId']).first()
     alarm = Alarm.query.filter_by(id=data['alarmId']).first()
-    if checker(user, data, (alarm,)) and alarm.counter <= 0:
+    if _checker(user, data, (alarm,)) and alarm.counter <= 0:
         db.session.delete(alarm)
         db.session.commit()
         ans['alarmId'] = alarm.id
@@ -184,7 +185,7 @@ def is_request_in_room(data: dict) -> dict:
     user = User.query.filter_by(id=data['userId']).first()
     msg = Msg.query.filter_by(id=data['msgId']).first()
     room = Room.query.filter_by(id=msg.room_id).first()
-    if checker(user, data, (room,)) and user in room.linking:
+    if _checker(user, data, (room,)) and user in room.linking:
         db.session.delete(msg)
         db.session.commit()
         ans['roomId'] = room.id
