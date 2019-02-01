@@ -1,4 +1,4 @@
-from api_code import db
+from api_code.flask_app import db
 
 links = db.Table('links',
                  db.Column('user_id', db.Integer, db.ForeignKey('user.id')),

@@ -1,16 +1,22 @@
-from flask import jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response
+from flask_sqlalchemy import SQLAlchemy
 
-from api_code import app
+from config.config import Config
+
+app = Flask(__name__)
+app.config.from_object(Config)
+db = SQLAlchemy(app)
+
 from api_code import response_func as func
 
 
 @app.errorhandler(400)
-def not_found():
+def not_found(error):
     return make_response(jsonify({'error': 'Bad request, sosi hui, hz pochemu'}), 400)
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(error):
     return make_response(jsonify({'error': 'Not found this url'}), 404)
 
 
@@ -39,7 +45,12 @@ type_request = {
 }
 
 
-@app.route('/alarm_api', methods=['GET', 'POST'])
+@app.route('/alarm_api', methods=('POST',))
 def alarm_api():
     client_request: dict = request.json
     return jsonify(type_request[client_request['requestType']](client_request))
+
+
+@app.route('/')
+def about():
+    return 'Alarm api by MBkkt'
