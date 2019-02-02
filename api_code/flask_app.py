@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, abort
 from flask_sqlalchemy import SQLAlchemy
 
 from config.config import Config
@@ -36,8 +36,14 @@ type_request = {
 
 @app.route('/alarm_api', methods=['POST'])
 def alarm_api():
-    client_request: dict = request.json
-    return jsonify(type_request[client_request['requestType']](client_request))
+    try:
+        client_request = request.get_json()
+        if isinstance(client_request, dict):
+            response = jsonify(type_request[client_request['requestType']](client_request))
+    except Exception as e:
+        abort(400)
+    else:
+        return response
 
 
 @app.route('/')

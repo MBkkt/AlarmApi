@@ -151,10 +151,11 @@ def search_room(data: dict) -> dict:
     }
     user = User.query.filter_by(id=data['userId']).first()
     if _checker(user, data):
+        ans['rooms'] = Room.query.filter_by(id=data.get('roomId'))
         ans['rooms'] = [
-            {'id': room.id, 'name': room.name, 'adminId': room.admin_id, }
-            for room in
-            Room.query.filter(Room.name.in_([name for name in data['roomName']])).all()
+            {'id': room.id, 'name': room.name, 'adminId': room.admin_id}
+            for room in ans['rooms'].all() or
+            Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
         ]
     return ans
 
