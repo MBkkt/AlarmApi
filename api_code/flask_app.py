@@ -25,12 +25,13 @@ type_request = {
     1: func.login,
     2: func.create_room,
     3: func.change_room,
-    4: func.get_rooms,
+    4: func.get_user_rooms,
     5: func.send_request_to_room,
     6: func.turn_off_alarm,
-    7: func.search_room,
+    7: func.search_rooms,
     8: func.check_alarm,
     9: func.is_request_in_room,
+    10: func.get_room,
 }
 
 
