@@ -41,6 +41,7 @@ def alarm_api():
         if isinstance(client_request, dict):
             response = jsonify(type_request[client_request['requestType']](client_request))
     except Exception as e:
+        print(e)
         abort(400)
     else:
         return response

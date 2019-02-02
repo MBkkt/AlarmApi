@@ -28,6 +28,8 @@ def register(data: dict) -> dict:
         db.session.commit()
         ans['userId'] = user.id
         ans['registred'] = True
+    else:
+        ans['error'] = -2  # 'this name exist'
     return ans
 
 
@@ -36,11 +38,16 @@ def login(data: dict) -> dict:
         'responseType': 1,
         'logged': False,
         'userId': -1,
+        'error': 1
     }
     user = User.query.filter_by(id=data['userId']).first() or User.query.filter_by(name=data['userName']).first()
     if _checker(user, data):
         ans['userId'] = user.id
         ans['logged'] = True
+    elif not user:
+        ans['error'] = -2  # 'no exist this id and login'
+    else:
+        ans['error'] = -3  # 'bad password;
     return ans
 
 
@@ -155,7 +162,7 @@ def search_room(data: dict) -> dict:
         ans['rooms'] = [
             {'id': room.id, 'name': room.name, 'adminId': room.admin_id}
             for room in ans['rooms'].all() or
-            Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
+                        Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
         ]
     return ans
 
