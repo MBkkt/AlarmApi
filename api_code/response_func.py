@@ -53,7 +53,7 @@ def create_room(data: dict) -> dict:
     admin = User.query.filter_by(id=data['userId']).first()
     room = Room.query.filter_by(name=data['room']['name']).first()
     if _checker(admin, data, false_args=(room,)):
-        room = Room(name=data['room']['name'], password=data['room']['password'], admin_id=admin.id)
+        room = Room(name=data['room']['name'], admin_id=admin.id)
         room.linking.append(admin)
         db.session.add(room)
         db.session.commit()
@@ -71,7 +71,6 @@ def change_room(data: dict) -> dict:
     admin = User.query.filter_by(id=room.admin_id).first()
     if _checker(admin, data):
         room.name = data['room']['name']
-        room.password = data['room']['password']
         room.admin_id = data['room']['adminId']
         room.linking.extend(
             User.query.filter(

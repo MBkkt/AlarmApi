@@ -17,7 +17,6 @@ class Room(db.Model):
     __tablename__ = 'room'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, unique=True)
-    password = db.Column(db.String)
     admin_id = db.Column(db.Integer)
 
 
