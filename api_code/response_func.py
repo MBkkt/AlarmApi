@@ -102,7 +102,7 @@ def change_room(data: dict) -> dict:
     return ans
 
 
-def get_rooms(data: dict) -> dict:
+def get_user_rooms(data: dict) -> dict:
     ans = {
         'responseType': 4,
         'userId': -1,
@@ -151,18 +151,17 @@ def turn_off_alarm(data: dict) -> dict:
     return ans
 
 
-def search_room(data: dict) -> dict:
+def search_rooms(data: dict) -> dict:
     ans = {
         'responseType': 7,
         'rooms': [],
     }
     user = User.query.filter_by(id=data['userId']).first()
     if _checker(user, data):
-        ans['rooms'] = Room.query.filter_by(id=data.get('roomId'))
         ans['rooms'] = [
             {'id': room.id, 'name': room.name, 'adminId': room.admin_id}
             for room in
-            ans['rooms'].all() or Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
+            Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
         ]
     return ans
 
@@ -197,4 +196,30 @@ def is_request_in_room(data: dict) -> dict:
         db.session.commit()
         ans['roomId'] = room.id
         ans['accepted'] = True
+    return ans
+
+
+def get_room(data: dict) -> dict:
+    ans = {
+        'responseType': 10,
+        'room': {},
+    }
+    user = User.query.filter_by(id=data['userId']).first()
+    if _checker(user, data):
+        room = Room.query.filter_by(id=data.get('roomId')).first()
+        if user.id == room.id:
+            ans['room']['unapprovedUsers'] = [
+                {'id': msg.user_id} for msg in room.msgs
+            ]
+        ans['room']['id'] = room.id
+        ans['room']['adminId'] = room.admin_id
+        ans['room']['name'] = room.name
+        ans['room']['users'] = [
+            {'id': user.id, 'name': room.name}
+            for user in room.linking.all()
+        ]
+        ans['room']['alarms'] = [
+            {'id': alarm.id, 'name': alarm.name, 'time': str(alarm.time), 'days': alarm.days, 'counter': alarm.counter}
+            for alarm in room.alarms
+        ]
     return ans

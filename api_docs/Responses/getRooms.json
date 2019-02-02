@@ -1,38 +1,23 @@
 {
-  "responseType": 4,
-  "userId": 798798,
-  "rooms": [
-    {
-      "id": 0,
-      "name": "room1",
-      "adminId": 1,
-      "unapprovedUsers": [
-        {
-          "first": {
-            "userName": "user0",
-            "userId": 0
-          },
-          "msg": "add me"
-        }
-      ],
-      "users": [
-        {
-          "userName": "user0",
-          "userId": 0
-        },
-        {
-          "userName": "user1",
-          "userId": 1
-        }
-      ],
-      "alarms": [
-        {
-          "id": 0,
-          "name": "alarm0",
-          "time": "10:10",
-          "daysWhenRepeat": "0000011"
-        }
-      ]
-    }
-  ]
+  "responseType": 10,
+  "room": {
+    "adminId": 1,
+    "alarms": [
+      {
+        "counter": 1,
+        "days": "0000000",
+        "id": 5,
+        "name": "",
+        "time": "17:22:00"
+      }
+    ],
+    "id": 1,
+    "name": "room 1",
+    "users": [
+      {
+        "id": 1,
+        "name": "room 1"
+      }
+    ]
+  }
 }
