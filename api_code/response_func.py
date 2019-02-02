@@ -207,19 +207,19 @@ def get_room(data: dict) -> dict:
     user = User.query.filter_by(id=data['userId']).first()
     if _checker(user, data):
         room = Room.query.filter_by(id=data.get('roomId')).first()
-        if user.id == room.id:
-            ans['room']['unapprovedUsers'] = [
-                {'id': msg.user_id} for msg in room.msgs
-            ]
         ans['room']['id'] = room.id
-        ans['room']['adminId'] = room.admin_id
         ans['room']['name'] = room.name
+        ans['room']['adminId'] = room.admin_id
         ans['room']['users'] = [
-            {'id': user.id, 'name': room.name}
+            {'id': user.id, 'name': user.name}
             for user in room.linking.all()
         ]
+        ans['room']['unapprovedUsers'] = [
+            {'id': msg.user_id} for msg in room.msgs
+        ] if user.id == room.admin_id else []
         ans['room']['alarms'] = [
-            {'id': alarm.id, 'name': alarm.name, 'time': [alarm.time.hour, alarm.time.minute], 'days': alarm.days, 'counter': alarm.counter}
+            {'id': alarm.id, 'name': alarm.name, 'time': [alarm.time.hour, alarm.time.minute],
+             'days': alarm.days, 'counter': alarm.counter, }
             for alarm in room.alarms
         ]
     return ans

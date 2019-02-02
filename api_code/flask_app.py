@@ -41,11 +41,9 @@ def alarm_api():
         client_request = request.get_json()
         if isinstance(client_request, dict):
             return jsonify(type_request[client_request['requestType']](client_request))
-        else:
-            abort(400)
     except Exception as e:
         print(e)
-        abort(400)
+    abort(400)
 
 
 @app.route('/')
