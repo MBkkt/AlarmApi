@@ -7,7 +7,6 @@
     "id": 1,
     "name": "newroom1",
     "adminId": 1,
-    "password": "hui",
     "users": [
       {
         "name": "user0",
