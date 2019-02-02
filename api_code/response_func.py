@@ -161,8 +161,8 @@ def search_room(data: dict) -> dict:
         ans['rooms'] = Room.query.filter_by(id=data.get('roomId'))
         ans['rooms'] = [
             {'id': room.id, 'name': room.name, 'adminId': room.admin_id}
-            for room in ans['rooms'].all() or
-                        Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
+            for room in
+            ans['rooms'].all() or Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
         ]
     return ans
 
