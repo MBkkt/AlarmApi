@@ -219,7 +219,7 @@ def get_room(data: dict) -> dict:
             for user in room.linking.all()
         ]
         ans['room']['alarms'] = [
-            {'id': alarm.id, 'name': alarm.name, 'time': str(alarm.time), 'days': alarm.days, 'counter': alarm.counter}
+            {'id': alarm.id, 'name': alarm.name, 'time': [alarm.time.hour, alarm.time.minute], 'days': alarm.days, 'counter': alarm.counter}
             for alarm in room.alarms
         ]
     return ans
