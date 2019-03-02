@@ -29,12 +29,11 @@ if not app.debug:
 
     if not path.exists('logs'):
         mkdir('logs')
-
     file_handler = RotatingFileHandler('logs/server.log')
     file_handler.setFormatter(
         logging.Formatter(
-            '{asctime} {levelname}: {message} [in {pathname}:{lineno}'
-        )
+            '{asctime} {levelname}: {message} [in {pathname}:{lineno}',
+            style='{')
     )
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)

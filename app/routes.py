@@ -1,6 +1,6 @@
 from flask import jsonify, request, make_response, abort
 from app import app
-
+import logging
 
 class MyError(Exception):
     pass
@@ -45,10 +45,11 @@ def alarm_api():
             )
     except MyError as e:
         return jsonify({
-            'error': str(e)
+            'error': str(e),
+            'for egor': 'проверь название поля'
         })
     except Exception as e:
-        print(e)
+        logging.INFO(e)
     abort(400)
 
 
