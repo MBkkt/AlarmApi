@@ -3,7 +3,7 @@ from os import path, environ, mkdir
 
 basedir = path.abspath(path.dirname(__file__))
 if not path.exists('data'):
-    mkdir('logs')
+    mkdir('data')
 Config = namedtuple('Config', (
     'path', 'SECRET_KEY', 'SQLALCHEMY_DATABASE_URI',
     'SQLALCHEMY_TRACK_MODIFICATIONS', 'MAIL_SERVER', 'MAIL_PORT',
