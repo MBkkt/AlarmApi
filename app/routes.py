@@ -1,12 +1,11 @@
 from flask import jsonify, request, make_response, abort
 from app import app
 import logging
+import app.utils_routes as utils
+
 
 class MyError(Exception):
     pass
-
-
-import app.utils_routes as utils
 
 
 @app.errorhandler(400)
