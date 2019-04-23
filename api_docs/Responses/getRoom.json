@@ -1,0 +1,23 @@
+{
+  "responseType": 10,
+  "room": {
+    "adminId": 1,
+    "alarms": [
+      {
+        "counter": 1,
+        "days": "0000000",
+        "id": 5,
+        "name": "",
+        "time": [17, 22]
+      }
+    ],
+    "id": 1,
+    "name": "room 1",
+    "users": [
+      {
+        "id": 1,
+        "name": "room 1"
+      }
+    ]
+  }
+}

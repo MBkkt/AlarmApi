@@ -1,5 +1,6 @@
 {
   "responseType": 1,
   "logged": true,
-  "userId": 12
+  "userId": 12,
+  "error": 1
 }

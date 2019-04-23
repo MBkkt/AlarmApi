@@ -3,5 +3,6 @@
   "requestType": 7,
   "userId": 1,
   "userPassword": "abc",
-  "roomName": ["newroom1", "room2"]
+  "roomId": 493104,
+  "roomName": "newroom1"
 }

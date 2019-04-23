@@ -4,7 +4,6 @@
   "userId": 1,
   "userPassword": "abc",
   "room": {
-    "name": "room1",
-    "password": "34209184032"
+    "name": "room1"
   }
 }

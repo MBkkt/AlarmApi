@@ -1,5 +1,6 @@
 {
   "responseType": 0,
   "userId": 100,
-  "registred": true
+  "registred": true,
+  "error": 1
 }
