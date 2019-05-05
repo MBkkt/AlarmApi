@@ -159,11 +159,13 @@ def get_room(data: dict) -> dict:
         {'id': user.id, 'name': user.user_name}
         for user in room.users
     ]
-    ans['room']['unapprovedUsers'] = [
-        {'id': user.id, 'name': user.user_name}
-        for user in room.users
-        if user.id in [msg.user_id for msg in room.msgs]
-    ] if user.id == room.admin_id else []
+    ans['room']['unapprovedUsers'] = []
+    if user.id == room.admin_id:
+        for msg in room.msgs:
+            user: User = User.query.get(msg.user_id)
+            ans['room']['unapprovedUsers'].append(
+                {'id': user.id, 'name': user.user_name, 'msg': msg.body}
+            )
     ans['room']['alarms'] = [
         {
             'id': alarm.id, 'name': alarm.alarm_name,
