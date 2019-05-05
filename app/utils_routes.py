@@ -135,17 +135,14 @@ def check_alarm(data: dict) -> dict:
 
 def is_request_in_room(data: dict) -> dict:
     ans = {
-        'accepted': False,
+        'send': False,
         'roomId': -1,
     }
     user: User = User.login(data)
-    msg: Msg = Msg.get_msg(data)
-    room: Room = Room.get_room({'roomId': msg.room_id})
-    if user in room.users:
-        db.session.delete(msg)
-        db.session.commit()
+    room: Room = Room.get_room(data)
+    if room.id in (msg.room_id for msg in user.msgs):
         ans['roomId'] = room.id
-        ans['accepted'] = True
+        ans['send'] = True
     return ans
 
 
