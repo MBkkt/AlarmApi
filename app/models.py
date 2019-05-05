@@ -117,7 +117,7 @@ class Room(db.Model):
         return [
             {'id': room.id, 'name': room.room_name, 'adminId': room.admin_id}
             for room in
-            Room.query.filter(Room.name.like(f"{data['roomName']}%")).all()
+            Room.query.filter(Room.user_name.like(f"{data['roomName']}%")).all()
         ]
 
 
