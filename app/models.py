@@ -35,8 +35,8 @@ class User(db.Model):
             User.email == data.get('userEmail'))).first()
         if user:
             raise MyError("This user exist")
-        if all((data.get('userName'), data.get('userEmail'),
-                data.get('userPassword'))):
+        if not all((data.get('userName'), data.get('userEmail'),
+                    data.get('userPassword'))):
             raise MyError("Bad name, mail, password")
         user = User(
             user_name=data['userName'],
