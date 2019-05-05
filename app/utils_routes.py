@@ -160,7 +160,9 @@ def get_room(data: dict) -> dict:
         for user in room.users
     ]
     ans['room']['unapprovedUsers'] = [
-        {'id': msg.user_id} for msg in room.msgs
+        {'id': user.id, 'name': user.user_name}
+        for user in room.users
+        if user.id in [msg.user_id for msg in room.msgs]
     ] if user.id == room.admin_id else []
     ans['room']['alarms'] = [
         {
