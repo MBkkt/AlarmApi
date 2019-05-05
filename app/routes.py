@@ -36,9 +36,9 @@ def alarm_api():
     try:
         client_request = request.get_json()
         if isinstance(client_request, dict):
-            return jsonify(
-                type_request[client_request['requestType']](client_request)
-            )
+            ans = type_request[client_request['requestType']](client_request)
+            ans['requestType'] = client_request['requestType']
+            return jsonify(ans)
     except MyError as e:
         return jsonify({
             'error': str(e),
