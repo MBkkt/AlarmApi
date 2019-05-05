@@ -1,7 +1,7 @@
 from sqlalchemy import or_, Column
 
 from app import db
-from app.routes import MyError
+from app.errors import MyError
 from werkzeug.security import generate_password_hash, check_password_hash
 
 users_rooms = db.Table(
